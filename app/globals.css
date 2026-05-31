@@ -1,0 +1,87 @@
+* {
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #070707;
+  background-image:
+    radial-gradient(1200px 800px at 20% 10%, rgba(212,175,55,0.10), rgba(0,0,0,0) 62%),
+    radial-gradient(900px 700px at 85% 25%, rgba(96,165,250,0.08), rgba(0,0,0,0) 58%),
+    radial-gradient(700px 520px at 35% 92%, rgba(255,255,255,0.04), rgba(0,0,0,0) 60%),
+    linear-gradient(180deg, rgba(7,7,7,1), rgba(7,7,7,1));
+  background-attachment: fixed;
+  background-size: 140% 140%;
+  animation: wc_ambientShift 28s ease-in-out infinite alternate;
+  color:#ffffff;
+  font-family: sans-serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.035;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.10) 0, rgba(255,255,255,0.10) 1px, transparent 1px, transparent 5px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.08) 0, rgba(255,255,255,0.08) 1px, transparent 1px, transparent 7px);
+  mix-blend-mode: overlay;
+}
+
+@keyframes wc_ambientShift {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 30%;
+  }
+}
+
+@keyframes wc_fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wc_gridDrift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-56px, 0, 0);
+  }
+}
+
+@keyframes wc_drawerFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes wc_drawerSlideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
