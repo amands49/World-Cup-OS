@@ -1,3 +1,6 @@
+// Agent detail panel body for the right drawer.
+// Shows risk level, recommendation, affected areas, reasoning, and confidence.
+
 const RISK_ACCENT = {
   CRITICAL: "rgba(239,68,68,0.75)",
   HIGH: "rgba(239,68,68,0.60)",
@@ -7,6 +10,7 @@ const RISK_ACCENT = {
 };
 
 export default function AgentDetailDrawer({ detail }) {
+  // Renders structured agent fields from getAgentDetail() or a standby placeholder.
   if (!detail) {
     return (
       <p style={{ margin: 0, color: "rgba(255,255,255,0.48)", fontSize: "13px" }}>
@@ -51,6 +55,7 @@ export default function AgentDetailDrawer({ detail }) {
 }
 
 function DetailBlock({ label, value, accent, large = false, muted = false, tabular = false }) {
+  // Reusable labeled field row with optional risk accent dot.
   return (
     <div>
       <div

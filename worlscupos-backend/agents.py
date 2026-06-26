@@ -1,5 +1,6 @@
-from google import genai
-import os
+# Gemini-powered multi-agent orchestrator for stadium operations analysis.
+# Sends stadium telemetry to Gemini and parses structured JSON agent responses.
+from google import genaiimport os
 import json
 from datetime import datetime
 from dotenv import load_dotenv
@@ -10,6 +11,7 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 
 def run_all_agents_call(stadium_data):
+    # Prompts Gemini to analyze telemetry as five domain agents and return JSON.
     print("WorldCupOS Multi-Agent System running...")
 
     prompt = f"""
@@ -73,9 +75,10 @@ def run_all_agents_call(stadium_data):
     specific values. Return ONLY the JSON.
     """
 
-    response = client.models.generate_content(model="gemini-3.5-flash", contents=prompt)
+    response = client.models.generate_content(model="gemini-3-flash-preview", contents=prompt)
 
     text = response.text.strip()
+    # Strip markdown fences Gemini sometimes wraps around JSON output.
     text = text.replace("```json", "").replace("```", "").strip()
     result = json.loads(text)
 

@@ -1,5 +1,7 @@
 "use client";
 
+// Router for right-side drawer content — agent detail, simulation, or system status.
+// Selects the correct drawer body based on the active drawer.type from page state.
 import RightDrawer from "./RightDrawer";
 import AgentDetailDrawer from "./drawers/AgentDetailDrawer";
 import SystemStatusDrawer from "./drawers/SystemStatusDrawer";
@@ -19,6 +21,7 @@ export default function AppDrawers({
   loading,
   onSimulate,
 }) {
+  // Mounts RightDrawer with agent detail, simulation, or system status content.
   if (!drawer) return null;
 
   const meta = DRAWER_META[drawer.type] || DRAWER_META.agent;

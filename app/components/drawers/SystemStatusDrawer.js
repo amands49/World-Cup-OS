@@ -1,9 +1,12 @@
 "use client";
 
+// System diagnostics drawer — platform status and live MongoDB MCP stats.
+// Fetches /mcp/stats on mount to show collection document counts.
 import { useEffect, useState } from "react";
 import { getMCPStats } from "../../lib/api";
 
 export default function SystemStatusDrawer() {
+  // Shows static platform health rows plus dynamic MCP collection metrics.
   const [mcpStats, setMcpStats] = useState(null);
   const [loadError, setLoadError] = useState(false);
 
@@ -77,6 +80,7 @@ export default function SystemStatusDrawer() {
 }
 
 function SectionLabel({ children }) {
+  // Uppercase section heading for grouped status rows.
   return (
     <div
       style={{
@@ -93,6 +97,7 @@ function SectionLabel({ children }) {
 }
 
 function StatusRow({ label, value }) {
+  // Static platform status row (e.g. Backend: Online).
   return (
     <div
       style={{
@@ -123,6 +128,7 @@ function StatusRow({ label, value }) {
 }
 
 function MetricRow({ label, value }) {
+  // Dynamic MCP metric row with tabular-nums count from MongoDB.
   return (
     <div
       style={{

@@ -1,7 +1,9 @@
+// HTTP client for the WorldCupOS FastAPI backend.
+// Exposes fetch wrappers for agent runs, simulations, and MCP diagnostics.
 const BACKEND_URL = "http://localhost:8000";
 
 export async function runAgents() {
-  // MUST use backticks ` ` here, NOT regular single or double quotes
+  // POST /run-agents — triggers multi-agent analysis on baseline telemetry.
   const response = await fetch(`${BACKEND_URL}/run-agents`, {
     method: "POST",
     headers: {
@@ -18,7 +20,7 @@ export async function runAgents() {
 }
 
 export async function getStadiumStatus() {
-  // MUST use backticks ` ` here too
+  // GET /stadium-status — returns stadium metadata and MongoDB counts.
   const response = await fetch(`${BACKEND_URL}/stadium-status`);
 
   if (!response.ok) {
@@ -30,6 +32,7 @@ export async function getStadiumStatus() {
 }
 
 export async function runSimulation(scenario) {
+  // POST /simulate — runs agents against a named crisis scenario.
   const response = await fetch(`${BACKEND_URL}/simulate`, {
     method: "POST",
     headers: {
@@ -47,6 +50,7 @@ export async function runSimulation(scenario) {
 }
 
 export async function getMCPStats() {
+  // GET /mcp/stats — returns MongoDB collection document counts.
   const response = await fetch(`${BACKEND_URL}/mcp/stats`);
   if (!response.ok) throw new Error("Failed to get MCP stats");
   return await response.json();

@@ -1,3 +1,5 @@
+# MongoDB persistence layer (MCP-style tools) for WorldCupOS operational data.
+# Read/write helpers for incidents, states, recommendations, and simulations.
 from pymongo import MongoClient
 from datetime import datetime
 import os
@@ -15,6 +17,7 @@ simulations_collection = db["simulations"]
 
 
 def mcp_save_operational_state(stadium_name, agent_results):
+    # Snapshots current risk levels and top priority into operational_states.
     print("[MCP] Saving operational state to MongoDB...")
 
     state = {
@@ -35,6 +38,7 @@ def mcp_save_operational_state(stadium_name, agent_results):
 
 
 def mcp_get_recent_incidents(limit=5):
+    # Returns the latest incident documents, newest first.
     print("[MCP] Retrieving recent incidents from MongoDB...")
 
     incidents = list(
@@ -46,6 +50,7 @@ def mcp_get_recent_incidents(limit=5):
 
 
 def mcp_save_recommendation(agent_name, recommendation, risk_level, scenario=None):
+    # Persists a single agent recommendation with risk level and scenario tag.
     print(f"[MCP] Saving {agent_name} recommendation to MongoDB...")
 
     rec = {
@@ -63,6 +68,7 @@ def mcp_save_recommendation(agent_name, recommendation, risk_level, scenario=Non
 
 
 def mcp_get_historical_context(scenario=None):
+    # Loads recent simulation executive summaries for agent prompt enrichment.
     print("[MCP] Fetching historical context from MongoDB...")
 
     query = {}
@@ -88,6 +94,7 @@ def mcp_get_historical_context(scenario=None):
 
 
 def mcp_save_simulation(scenario, stadium_data, agent_results):
+    # Stores a full what-if simulation run including input data and agent output.
     print(f"[MCP] Saving simulation '{scenario}' to MongoDB...")
 
     sim = {
@@ -104,6 +111,7 @@ def mcp_save_simulation(scenario, stadium_data, agent_results):
 
 
 def mcp_get_all_collections_stats():
+    # Returns document counts for all MCP collections (diagnostics endpoint).
     print("[MCP] Getting MongoDB collection statistics...")
 
     stats = {

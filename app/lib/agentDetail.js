@@ -1,3 +1,6 @@
+// Normalizes agent domain data into a drawer-friendly detail object.
+// Resolves display labels and domain-specific affected-area fields.
+
 const AGENT_LABELS = {
   crowd: "Crowd Flow",
   vendor: "Vendor Ops",
@@ -7,6 +10,7 @@ const AGENT_LABELS = {
 };
 
 function getAffectedAreas(categoryKey, domain) {
+  // Extracts the relevant "affected areas" string per agent domain type.
   if (!domain) return null;
 
   switch (categoryKey) {
@@ -37,6 +41,7 @@ function getAffectedAreas(categoryKey, domain) {
 }
 
 export function getAgentDetail(agentData, categoryKey) {
+  // Builds structured detail payload for the AgentDetailDrawer component.
   if (!agentData || !categoryKey) return null;
 
   const domain = agentData[categoryKey];

@@ -1,5 +1,7 @@
 "use client";
 
+// Slide-in right panel shell with backdrop, escape-to-close, and scroll lock.
+// Used by AppDrawers to host agent detail, simulation, and system panels.
 import { useEffect } from "react";
 
 export default function RightDrawer({
@@ -9,7 +11,9 @@ export default function RightDrawer({
   overline,
   children,
 }) {
+  // Fixed overlay drawer with backdrop blur, slide-in panel, and Escape to close.
   useEffect(() => {
+    // Lock body scroll and listen for Escape while the drawer is open.
     if (!isOpen) return;
 
     const previousOverflow = document.body.style.overflow;

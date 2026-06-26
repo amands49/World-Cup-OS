@@ -1,4 +1,8 @@
+// Builds telemetry strip readouts from agent response data.
+// Maps risk levels to accent colors and aggregates domain KPI counts.
+
 function accentFromRisk(riskLevel) {
+  // Maps agent risk_level strings to UI accent tokens for the telemetry strip.
   switch (riskLevel) {
     case "CRITICAL":
       return "critical";
@@ -14,6 +18,7 @@ function accentFromRisk(riskLevel) {
 }
 
 function countActiveRecommendations(agentData) {
+  // Counts domains that returned a recommendation or executive top_priority.
   if (!agentData) return 0;
 
   const domains = ["crowd", "vendor", "emergency", "transport", "executive"];
@@ -25,6 +30,7 @@ function countActiveRecommendations(agentData) {
 }
 
 export function buildTelemetryReadouts(agentData, options = {}) {
+  // Produces the horizontal KPI cells shown below the hero section.
   const kickoff = options.kickoff ?? "2h";
 
   if (!agentData) {

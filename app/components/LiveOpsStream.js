@@ -1,5 +1,7 @@
 "use client";
 
+// Filterable live operations stream showing agent recommendations by severity.
+// Splits pinned (critical/high/executive) items from the chronological feed.
 import { useMemo, useState } from "react";
 
 const FILTERS = [
@@ -19,7 +21,36 @@ const SEVERITY_DOT = {
   info: "rgba(255,255,255,0.38)",
 };
 
+const SEVERITY_BADGE = {
+  critical: {
+    color: "rgba(239,68,68,0.98)",
+    bg: "rgba(239,68,68,0.12)",
+    border: "rgba(239,68,68,0.36)",
+  },
+  high: {
+    color: "rgba(239,68,68,0.92)",
+    bg: "rgba(239,68,68,0.10)",
+    border: "rgba(239,68,68,0.30)",
+  },
+  medium: {
+    color: "rgba(212,175,55,0.98)",
+    bg: "rgba(212,175,55,0.11)",
+    border: "rgba(212,175,55,0.33)",
+  },
+  low: {
+    color: "rgba(74,222,128,0.98)",
+    bg: "rgba(74,222,128,0.10)",
+    border: "rgba(74,222,128,0.30)",
+  },
+  info: {
+    color: "rgba(255,255,255,0.78)",
+    bg: "rgba(255,255,255,0.05)",
+    border: "rgba(255,255,255,0.14)",
+  },
+};
+
 export default function LiveOpsStream({ streamItems = [], onItemSelect }) {
+  // Renders category tabs and a severity-sorted list of agent action items.
   const [activeFilter, setActiveFilter] = useState("all");
 
   const filteredItems = useMemo(() => {
@@ -197,7 +228,10 @@ export default function LiveOpsStream({ streamItems = [], onItemSelect }) {
 }
 
 function StreamRow({ item, pinned = false, onSelect }) {
-  const dotColor = SEVERITY_DOT[item.severity] || SEVERITY_DOT.info;
+  // Single stream entry row with severity badge and optional click-to-open drawer.
+  const severityKey = String(item.severity ?? "info").toLowerCase();
+  const dotColor = SEVERITY_DOT[severityKey] || SEVERITY_DOT.info;
+  const badge = SEVERITY_BADGE[severityKey] || SEVERITY_BADGE.info;
   const isInteractive = Boolean(onSelect);
 
   return (
@@ -273,32 +307,20 @@ function StreamRow({ item, pinned = false, onSelect }) {
           <span
             style={{
               color: "rgba(255,255,255,0.62)",
-              fontSize: "10px",
+              fontSize: "11px",
               letterSpacing: "0.12em",
               textTransform: "uppercase",
             }}
           >
             {item.agent}
           </span>
-          {item.status ? (
-            <span
-              style={{
-                color: "rgba(255,255,255,0.42)",
-                fontSize: "10px",
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-              }}
-            >
-              {item.status}
-            </span>
-          ) : null}
         </div>
 
         <p
           style={{
             margin: 0,
             color: "rgba(255,255,255,0.88)",
-            fontSize: "13px",
+            fontSize: "14px",
             lineHeight: 1.45,
           }}
         >
@@ -310,7 +332,7 @@ function StreamRow({ item, pinned = false, onSelect }) {
             style={{
               margin: "4px 0 0",
               color: "rgba(255,255,255,0.42)",
-              fontSize: "11px",
+              fontSize: "12px",
               lineHeight: 1.4,
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -325,15 +347,21 @@ function StreamRow({ item, pinned = false, onSelect }) {
 
       <span
         style={{
-          color: "rgba(255,255,255,0.28)",
-          fontSize: "10px",
+          color: badge.color,
+          backgroundColor: badge.bg,
+          border: `1px solid ${badge.border}`,
+          boxSizing: "border-box",
+          fontSize: "11px",
+          fontWeight: 700,
           letterSpacing: "0.08em",
           textTransform: "uppercase",
           whiteSpace: "nowrap",
-          paddingTop: "2px",
+          padding: "4px 8px",
+          borderRadius: "999px",
+          marginTop: "2px",
         }}
       >
-        {item.severity}
+        {severityKey.toUpperCase()}
       </span>
     </article>
   );

@@ -1,5 +1,7 @@
 "use client";
 
+// Main dashboard page — orchestrates agent runs, telemetry, stream, and drawer state.
+// Composes TopNav, HomeHero, TelemetryStrip, LiveOpsStream, and AppDrawers.
 import { useState } from "react";
 import LiveOpsStream from "./components/LiveOpsStream";
 import TopNav from "./components/TopNav";
@@ -18,14 +20,17 @@ export default function Home() {
   const [drawer, setDrawer] = useState(null);
 
   function openDrawer(type, payload = {}) {
+    // Opens a right-side drawer by type (agent, simulation, or system).
     setDrawer({ type, ...payload });
   }
 
   function closeDrawer() {
+    // Dismisses the active drawer.
     setDrawer(null);
   }
 
   async function handleRunAgents() {
+    // Triggers baseline multi-agent analysis against the FastAPI backend.
     setLoading(true);
     setError(null);
 
@@ -40,6 +45,7 @@ export default function Home() {
   }
 
   async function handleSimulate(scenarioId) {
+    // Runs a what-if crisis scenario and refreshes agent data from the response.
     setLoading(true);
     setError(null);
     setActiveScenario(scenarioId);
@@ -82,6 +88,7 @@ export default function Home() {
       <div style={{ flex: 1, overflow: "auto" }}>
         <div style={{ padding: "clamp(18px, 2.4vw, 32px)" }}>
           <HomeHero
+            agentData={agentData}
             loading={loading}
             onRunAgents={handleRunAgents}
             title="MetLife Stadium Operations"

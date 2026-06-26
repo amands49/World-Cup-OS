@@ -1,3 +1,8 @@
+# FastAPI application entry point and REST routes for WorldCupOS.
+# Orchestrates agent runs, crisis simulations, and MongoDB persistence.
+
+# FastAPI application entry point for WorldCupOS stadium operations.
+# Exposes REST routes that orchestrate AI agents, simulations, and MCP persistence.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
@@ -34,16 +39,19 @@ app.add_middleware(
 
 
 @app.get("/")
+# Root health probe for load balancers and quick sanity checks.
 def root():
     return {"status": "World CupOS is Running..."}
 
 
 @app.get("/health")
+# Returns structured health payload for monitoring integrations.
 def health():
     return {"status": "online", "system": "WorldCupOS", "version": "1.0"}
 
 
 @app.get("/stadium-status")
+# Aggregates MongoDB document counts with static stadium metadata.
 def stadium_status():
     total_teams = teams_collect.count_documents({})
     total_matches = matches_collect.count_documents({})
@@ -60,6 +68,7 @@ def stadium_status():
 
 
 @app.post("/run-agents")
+# Runs all domain agents on baseline telemetry and persists results to MongoDB.
 def run_all_agents():
     from agents import run_all_agents_call
 
@@ -105,6 +114,7 @@ def run_all_agents():
 
 
 @app.post("/simulate")
+# Applies a crisis scenario overlay, runs agents, and saves the simulation run.
 def run_simulation(scenario: dict):
     from agents import run_all_agents_call
 
@@ -152,6 +162,7 @@ def run_simulation(scenario: dict):
     }
 
     if scenario_name in scenarios:
+        # Merge crisis-specific telemetry overrides into the baseline stadium payload.
         base_stadium_data.update(scenarios[scenario_name])
 
     historical = mcp_get_historical_context(scenario_name)
@@ -172,18 +183,21 @@ def run_simulation(scenario: dict):
 
 
 @app.get("/mcp/stats")
+# Returns document counts across all MCP MongoDB collections.
 def get_mcp_stats():
     stats = mcp_get_all_collections_stats()
     return stats
 
 
 @app.get("/mcp/recent-incidents")
+# Fetches the most recent incident records from MongoDB.
 def get_recent_incidents():
     incidents = mcp_get_recent_incidents(limit=10)
     return {"incidents": incidents, "count": len(incidents)}
 
 
 @app.get("/mcp/historical/{scenario}")
+# Retrieves past simulation summaries for a given scenario type.
 def get_historical(scenario: str):
     history = mcp_get_historical_context(scenario)
     return {"history": history, "scenario": scenario}

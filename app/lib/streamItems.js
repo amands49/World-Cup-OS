@@ -1,3 +1,6 @@
+// Transforms raw agent JSON into sorted, filterable live ops stream items.
+// Assigns severity, pins critical/high items, and orders by urgency.
+
 const SEVERITY_WEIGHT = {
   critical: 0,
   high: 1,
@@ -7,6 +10,7 @@ const SEVERITY_WEIGHT = {
 };
 
 function riskToSeverity(riskLevel) {
+  // Converts backend risk_level enum to stream severity label.
   switch (riskLevel) {
     case "CRITICAL":
       return "critical";
@@ -22,10 +26,12 @@ function riskToSeverity(riskLevel) {
 }
 
 function shouldPin(severity, category) {
+  // Critical/high items and executive summary always appear in the pinned section.
   return severity === "critical" || severity === "high" || category === "executive";
 }
 
 export function buildStreamItems(agentData) {
+  // Maps each agent domain to a stream row with action, detail, and severity.
   if (!agentData) return [];
 
   const items = [
@@ -83,6 +89,7 @@ export function buildStreamItems(agentData) {
     }));
 
   return items.sort((a, b) => {
+    // Pinned items first, then by severity weight (critical → info).
     if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
     return SEVERITY_WEIGHT[a.severity] - SEVERITY_WEIGHT[b.severity];
   });

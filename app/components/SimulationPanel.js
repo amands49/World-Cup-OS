@@ -1,4 +1,8 @@
+// Crisis scenario picker grid for what-if simulation runs.
+// Can render standalone or embedded inside the simulation drawer.
+
 export default function SimulationPanel({ onSimulate, loading, embedded = false }) {
+  // Displays four crisis scenarios as clickable cards that trigger backend /simulate.
   const scenarios = [
     {
       id: "heavy_rain",

@@ -1,5 +1,7 @@
 "use client";
 
+// Sticky top navigation with expandable menu, agent pills, and tool shortcuts.
+// Shows live agent risk indicators and simulation-active badge when applicable.
 import Image from "next/image";
 import { useState } from "react";
 import {
@@ -27,6 +29,7 @@ export default function TopNav({
   onOpenSimulation,
   onOpenSystem,
 }) {
+  // Collapsible header with agent risk pills, tools menu, and simulation badge.
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -326,6 +329,7 @@ export default function TopNav({
 }
 
 function StadiumBlock() {
+  // Compact stadium identity block with thumbnail, match, and attendance.
   return (
     <div
       style={{
@@ -398,6 +402,7 @@ function StadiumBlock() {
 }
 
 function TeamLogoPair({ size = 18 }) {
+  // Inline Brazil vs France logo pair for the nav stadium block.
   return (
     <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
       <Image
@@ -419,6 +424,7 @@ function TeamLogoPair({ size = 18 }) {
 }
 
 function NavProfileSection() {
+  // Decorative ops-lead profile card at the bottom of the expanded nav.
   return (
     <div
       style={{
@@ -428,30 +434,27 @@ function NavProfileSection() {
         border: "1px solid rgba(255,255,255,0.08)",
       }}
     >
-      <div style={{ position: "relative", height: "72px" }}>
-        <Image
-          src="/sidebar/crowd.jpg"
-          alt=""
-          fill
-          sizes="400px"
-          aria-hidden
-          style={{ objectFit: "cover" }}
-        />
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(180deg, rgba(7,7,7,0.2), rgba(7,7,7,0.85))",
-          }}
-        />
-      </div>
+      <Image
+        src="/sidebar/crowd.jpg"
+        alt=""
+        fill
+        sizes="(max-width: 900px) 100vw, 520px"
+        aria-hidden
+        style={{ objectFit: "cover", objectPosition: "center 22%" }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(180deg, rgba(7,7,7,0.18), rgba(7,7,7,0.92))",
+        }}
+      />
       <div
         style={{
           position: "relative",
-          marginTop: "-28px",
-          padding: "0 12px 12px",
+          padding: "14px 12px 12px",
           display: "flex",
           alignItems: "center",
           gap: "10px",
@@ -487,7 +490,7 @@ function NavProfileSection() {
               fontWeight: 600,
             }}
           >
-            Alexander Morgan
+            Alex
           </p>
           <p
             style={{
@@ -505,6 +508,7 @@ function NavProfileSection() {
 }
 
 function SimulationBadge({ scenario }) {
+  // Red alert badge shown when a what-if simulation is active.
   return (
     <div
       style={{
@@ -542,6 +546,7 @@ function SimulationBadge({ scenario }) {
 }
 
 function ToolChip({ label, onClick }) {
+  // Clickable pill that opens simulation or system status drawers.
   return (
     <button
       type="button"
@@ -580,6 +585,7 @@ function ToolChip({ label, onClick }) {
 }
 
 function hexToRgba(hex, alpha) {
+  // Converts a hex color to rgba for risk-dot glow effects.
   const cleaned = String(hex || "").replace("#", "");
   if (cleaned.length !== 6) return `rgba(255,255,255,${alpha})`;
   const r = parseInt(cleaned.slice(0, 2), 16);
@@ -589,6 +595,7 @@ function hexToRgba(hex, alpha) {
 }
 
 function getRiskColor(riskLevel) {
+  // Maps agent risk_level to a dot color for nav agent pills.
   switch (riskLevel) {
     case "CRITICAL":
       return "rgba(239,68,68,0.85)";

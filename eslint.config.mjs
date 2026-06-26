@@ -1,3 +1,5 @@
+// ESLint flat config extending Next.js core-web-vitals rules.
+// Ignores build output directories and generated type declaration files.
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 

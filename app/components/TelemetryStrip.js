@@ -1,5 +1,7 @@
 "use client";
 
+// Horizontal scrollable strip of live telemetry KPI readouts.
+// Each cell shows an icon, label, accent dot, and value from buildTelemetryReadouts.
 import {
   Activity,
   Bus,
@@ -29,6 +31,7 @@ const ACCENT_DOT = {
 };
 
 export default function TelemetryStrip({ readouts = [] }) {
+  // Renders the KPI bar between hero and live ops stream when readouts exist.
   if (readouts.length === 0) return null;
 
   return (
@@ -64,6 +67,7 @@ export default function TelemetryStrip({ readouts = [] }) {
 }
 
 function TelemetryCell({ readout, showDivider }) {
+  // Individual KPI cell with icon, label, accent dot, and truncated value.
   const dotColor = ACCENT_DOT[readout.accent] || ACCENT_DOT.neutral;
   const Icon = TELEMETRY_ICONS[readout.id];
 

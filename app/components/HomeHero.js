@@ -1,5 +1,7 @@
 "use client";
 
+// Full-viewport hero section with stadium imagery, KPIs, and Run Agents CTA.
+// Displays match context, signal summary chips, and executive top priority.
 import Image from "next/image";
 import {
   Bus,
@@ -9,6 +11,7 @@ import {
 } from "lucide-react";
 
 export default function HomeHero({
+  agentData,
   loading,
   onRunAgents,
   title = "MetLife Stadium Operations",
@@ -21,6 +24,9 @@ export default function HomeHero({
     { label: "Transit", value: "Moderate" },
   ],
 }) {
+  // Primary landing panel — stadium overview, KPIs, signal chips, and Run Agents CTA.
+  const signal = buildSignalSummary(agentData);
+
   return (
     <section
       aria-label="Stadium overview"
@@ -86,9 +92,9 @@ export default function HomeHero({
           padding: "clamp(20px, 3vw, 36px)",
           height: "100%",
           display: "grid",
-          gridTemplateColumns: "minmax(0, 1.3fr) minmax(0, 0.9fr)",
+          gridTemplateColumns: "minmax(0, 1.32fr) minmax(0, 0.88fr)",
           gap: "clamp(16px, 2.6vw, 28px)",
-          alignItems: "end",
+          alignItems: "start",
         }}
       >
         <div style={{ maxWidth: "820px" }}>
@@ -165,7 +171,7 @@ export default function HomeHero({
                 marginTop: "14px",
                 display: "flex",
                 gap: "10px",
-                alignItems: "baseline",
+                alignItems: "flex-start",
                 padding: "10px 12px",
                 borderRadius: "12px",
                 backgroundColor: "rgba(255,255,255,0.04)",
@@ -195,9 +201,10 @@ export default function HomeHero({
                   color: "rgba(255,255,255,0.86)",
                   fontSize: "13px",
                   lineHeight: 1.35,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
                   overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
                   minWidth: 0,
                 }}
                 title={topPriority}
@@ -275,7 +282,7 @@ export default function HomeHero({
           style={{
             justifySelf: "stretch",
             display: "grid",
-            gap: "12px",
+            gap: "14px",
           }}
         >
           <GlassPanel title="Match Context">
@@ -327,29 +334,35 @@ export default function HomeHero({
           </GlassPanel>
 
           <GlassPanel title="Signal Summary">
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+                gap: "8px",
+              }}
+            >
               <Chip
                 label="Crowd"
-                value="Standby"
-                tone="neutral"
+                value={signal.crowd.value}
+                tone={signal.crowd.tone}
                 icon={Users}
               />
               <Chip
                 label="Vendors"
-                value="Standby"
-                tone="neutral"
+                value={signal.vendor.value}
+                tone={signal.vendor.tone}
                 icon={ShoppingCart}
               />
               <Chip
                 label="Transport"
-                value="Standby"
-                tone="neutral"
+                value={signal.transport.value}
+                tone={signal.transport.tone}
                 icon={Bus}
               />
               <Chip
                 label="Emergency"
-                value="Standby"
-                tone="neutral"
+                value={signal.emergency.value}
+                tone={signal.emergency.tone}
                 icon={ShieldAlert}
               />
             </div>
@@ -361,7 +374,7 @@ export default function HomeHero({
               borderRadius: "16px",
               overflow: "hidden",
               border: "1px solid rgba(255,255,255,0.10)",
-              minHeight: "140px",
+              minHeight: "168px",
             }}
           >
             <Image
@@ -369,7 +382,10 @@ export default function HomeHero({
               alt="Brazil vs France match action"
               fill
               sizes="(max-width: 768px) 100vw, 40vw"
-              style={{ objectFit: "cover" }}
+              style={{
+                objectFit: "cover",
+                objectPosition: "center 22%",
+              }}
             />
             <div
               aria-hidden="true"
@@ -388,6 +404,7 @@ export default function HomeHero({
 }
 
 function GlassPanel({ title, children }) {
+  // Frosted glass card wrapper used for match context and signal summary panels.
   return (
     <div
       style={{
@@ -444,6 +461,7 @@ function GlassPanel({ title, children }) {
 }
 
 function TeamLogoPair({ size = 24 }) {
+  // Renders Brazil and France team logos side by side.
   return (
     <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
       <Image
@@ -465,6 +483,7 @@ function TeamLogoPair({ size = 24 }) {
 }
 
 function Chip({ label, value, tone, icon: Icon }) {
+  // Compact status chip with icon, label, and color-coded risk tone.
   const stylesByTone = {
     neutral: {
       border: "1px solid rgba(255,255,255,0.14)",
@@ -498,29 +517,35 @@ function Chip({ label, value, tone, icon: Icon }) {
     <div
       style={{
         display: "inline-flex",
+        width: "100%",
         alignItems: "center",
         gap: "10px",
         padding: "9px 10px",
         borderRadius: "999px",
+        justifyContent: "space-between",
         ...s,
       }}
     >
-      {Icon ? (
-        <Icon
-          size={14}
-          strokeWidth={1.75}
-          aria-hidden="true"
-          style={{ opacity: 0.72, flexShrink: 0 }}
-        />
-      ) : null}
       <span
         style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "10px",
+          minWidth: 0,
           fontSize: "11px",
           letterSpacing: "0.12em",
           textTransform: "uppercase",
           opacity: 0.72,
         }}
       >
+        {Icon ? (
+          <Icon
+            size={14}
+            strokeWidth={1.75}
+            aria-hidden="true"
+            style={{ opacity: 0.72, flexShrink: 0 }}
+          />
+        ) : null}
         {label}
       </span>
       <span style={{ fontSize: "12px", fontWeight: 700, color: s.valueColor }}>
@@ -528,5 +553,32 @@ function Chip({ label, value, tone, icon: Icon }) {
       </span>
     </div>
   );
+}
+
+function buildSignalSummary(agentData) {
+  // Derives crowd/vendor/transport/emergency risk levels for signal summary chips.
+  const get = (key) => {
+    const riskLevel =
+      agentData?.[key]?.risk_level || agentData?.[key]?.overall_risk || "STANDBY";
+    const level = String(riskLevel).toUpperCase();
+
+    const tone =
+      level === "CRITICAL" || level === "HIGH"
+        ? "danger"
+        : level === "MEDIUM"
+          ? "warning"
+          : level === "LOW"
+            ? "info"
+            : "neutral";
+
+    return { value: level, tone };
+  };
+
+  return {
+    crowd: get("crowd"),
+    vendor: get("vendor"),
+    transport: get("transport"),
+    emergency: get("emergency"),
+  };
 }
 

@@ -1,3 +1,5 @@
+// Root HTML layout shell for the WorldCupOS Next.js application.
+// Sets global metadata, dark theme defaults, and renders page children.
 import "./globals.css";
 
 export const metadata = {
@@ -6,6 +8,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  // Wraps all pages in a full-viewport dark body with zero default margin.
   return (
     <html lang="en">
       <body
