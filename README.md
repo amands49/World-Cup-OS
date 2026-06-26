@@ -37,8 +37,11 @@ Stadium telemetry (simulated) → FastAPI backend → Gemini multi-agent analysi
 
 
 Frontend: Next.js 16, React 19, Tailwind CSS 4, Lucide icons 
+
 Backend: FastAPI, Uvicorn 
+
 AI: Google Gemini (`gemini-3-flash-preview`)
+
 Database: MongoDB Atlas
 
 
