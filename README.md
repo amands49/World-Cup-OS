@@ -16,7 +16,7 @@
 
 Running a World Cup match involves a coordinated effort across crowd safety, weather, transport, vendors, and emergency response. Operations teams need a single view of live conditions, prioritized actions, and AI-backed recommendations — not scattered spreadsheets and radio chatter.
 
-WorldCupOS simulates that command-center experience: a dark, broadcast-style dashboard where specialized AI agents analyze stadium telemetry and surface what matters most before kickoff.
+WorldCupOS simulates that command-center experience: a broadcast-style dashboard where specialized AI agents analyze stadium telemetry and surface what matters most before kickoff.
 
 ---
 
