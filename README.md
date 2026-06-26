@@ -14,7 +14,7 @@
 
 ## The Problem
 
-Running a World Cup match is a coordinated effort across crowd safety, weather, transport, vendors, and emergency response. Operations teams need a single view of live conditions, prioritized actions, and AI-backed recommendations — not scattered spreadsheets and radio chatter.
+Running a World Cup match involves a coordinated effort across crowd safety, weather, transport, vendors, and emergency response. Operations teams need a single view of live conditions, prioritized actions, and AI-backed recommendations — not scattered spreadsheets and radio chatter.
 
 WorldCupOS simulates that command-center experience: a dark, broadcast-style dashboard where specialized AI agents analyze stadium telemetry and surface what matters most before kickoff.
 
@@ -35,13 +35,12 @@ Stadium telemetry (simulated) → FastAPI backend → Gemini multi-agent analysi
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Frontend | Next.js 16, React 19, Tailwind CSS 4, Lucide icons |
-| Backend | FastAPI, Uvicorn |
-| AI | Google Gemini (`gemini-3-flash-preview`) |
-| Database | MongoDB Atlas (`worldcup2026`) |
-| UI | Dark futuristic command-center aesthetic |
+
+Frontend: Next.js 16, React 19, Tailwind CSS 4, Lucide icons 
+Backend: FastAPI, Uvicorn 
+AI: Google Gemini (`gemini-3-flash-preview`)
+Database: MongoDB Atlas
+
 
 ---
 
@@ -59,7 +58,7 @@ Stadium telemetry (simulated) → FastAPI backend → Gemini multi-agent analysi
 ```bash
 cd worlscupos-backend
 python -m venv venv
-venv\Scripts\activate          # Windows
+venv\Scripts\activate          # For Windows
 # source venv/bin/activate     # macOS / Linux
 
 pip install fastapi uvicorn python-dotenv pymongo google-genai
@@ -106,7 +105,7 @@ The frontend expects the backend at `http://localhost:8000` (see `app/lib/api.js
 - **What-if simulations** — Heavy rain, crowd surge, train delay, and power outage scenarios with historical context from past runs
 - **Agent detail drawers** — Drill into any agent for recommendation, affected areas, reasoning, and confidence
 - **MongoDB MCP layer** — Persists operational states, recommendations, incidents, and simulation history
-- **Stadium command UI** — Full-viewport hero, sticky nav with agent status pills, glassmorphism panels
+
 
 ---
 
