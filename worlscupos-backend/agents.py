@@ -1,4 +1,4 @@
-# Gemini-powered multi-agent orchestrator for stadium operations analysis.
+
 # Sends stadium telemetry to Gemini and parses structured JSON agent responses.
 from google import genaiimport os
 import json
